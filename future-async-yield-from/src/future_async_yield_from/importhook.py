@@ -1,5 +1,3 @@
-# STEP 4 — FULL SAFE IMPORT HOOK (NO RECURSION)
-
 import importlib.machinery
 import sys
 
@@ -100,3 +98,4 @@ def install_hook():
 
 # Install immediately when package is imported
 install_hook()
+
