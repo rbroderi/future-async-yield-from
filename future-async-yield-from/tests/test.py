@@ -21,10 +21,9 @@ async def main():
     async for value in a_gen(1):
         print("ok:", value)
 
-    # This will blow up at *runtime* because  "bad" isn't the right type,
-    # but that's separate from the codec working.
     async for value in a_gen("bad"):
         print("bad:", value)
 
 
 asyncio.run(main())
+
