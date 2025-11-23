@@ -9,25 +9,16 @@ async-delegation block (await __anext__, await asend, etc).
 
 Used via:
 
-    # -*- coding: future-async-yield-from -*-
+  automatic import hook (importhook.py)
 """
 
 from __future__ import annotations
 
-import argparse
 import ast
-import codecs
-import encodings
 import sys
-from collections.abc import Buffer, Sequence
-from typing import IO
+from collections.abc import Sequence
 
 import tokenize_rt  # type: ignore[import-untyped]
-
-# Base UTF-8 codec used for decoding before rewriting tokens
-utf_8 = encodings.search_function("utf8")
-if utf_8 is None:
-    raise RuntimeError("unable to find utf8 encoding function.")
 
 
 def make_async_yield_from_ast(expr: ast.expr) -> list[ast.stmt]:
@@ -42,176 +33,212 @@ def make_async_yield_from_ast(expr: ast.expr) -> list[ast.stmt]:
         targets=[ast.Name(id="__async_yf_source", ctx=ast.Store())],
         value=expr,
     )
-
+    ### AUTOGEN FROM ayf.py START - DO NOT EDIT
+    # Generated: 2025-11-23 16:38:35
     try_initial = ast.Try(
         body=[
             ast.Assign(
-                targets=[ast.Name(id="__async_yf_current", ctx=ast.Store())],
+                targets=[
+                    ast.Name(
+                        id='__async_yf_current',
+                        ctx=ast.Store(),
+                    ),
+                ],
                 value=ast.Await(
                     value=ast.Call(
                         func=ast.Attribute(
-                            value=ast.Name(id="__async_yf_source", ctx=ast.Load()),
-                            attr="__anext__",
+                            value=ast.Name(
+                                id='__async_yf_source',
+                                ctx=ast.Load(),
+                            ),
+                            attr='__anext__',
                             ctx=ast.Load(),
                         ),
-                        args=[],
-                        keywords=[],
-                    )
+                    ),
                 ),
-            )
+            ),
         ],
         handlers=[
             ast.ExceptHandler(
-                type=ast.Name(id="StopAsyncIteration", ctx=ast.Load()),
-                name=None,
-                body=[ast.Return()],
-            )
+                type=ast.Name(
+                    id='StopAsyncIteration',
+                    ctx=ast.Load(),
+                ),
+                body=[
+                    ast.Return(),
+                ],
+            ),
         ],
         orelse=[
             ast.While(
-                test=ast.Constant(True),
+                test=ast.Constant(
+                    value=True,
+                ),
                 body=[
                     ast.Try(
                         body=[
                             ast.Assign(
                                 targets=[
-                                    ast.Name(id="__async_yf_sent_in", ctx=ast.Store())
+                                    ast.Name(
+                                        id='__async_yf_sent_in',
+                                        ctx=ast.Store(),
+                                    ),
                                 ],
                                 value=ast.Yield(
                                     value=ast.Name(
-                                        id="__async_yf_current", ctx=ast.Load()
-                                    )
+                                        id='__async_yf_current',
+                                        ctx=ast.Load(),
+                                    ),
                                 ),
-                            )
+                            ),
                         ],
                         handlers=[
                             ast.ExceptHandler(
-                                type=ast.Name(id="GeneratorExit", ctx=ast.Load()),
-                                name="__async_yf_ge",
+                                type=ast.Name(
+                                    id='GeneratorExit',
+                                    ctx=ast.Load(),
+                                ),
+                                name='__async_yf_ge',
                                 body=[
                                     ast.Try(
                                         body=[
                                             ast.Assign(
                                                 targets=[
                                                     ast.Name(
-                                                        id="__async_yf_aclose",
+                                                        id='__async_yf_aclose',
                                                         ctx=ast.Store(),
-                                                    )
+                                                    ),
                                                 ],
                                                 value=ast.Attribute(
                                                     value=ast.Name(
-                                                        id="__async_yf_source",
+                                                        id='__async_yf_source',
                                                         ctx=ast.Load(),
                                                     ),
-                                                    attr="aclose",
+                                                    attr='aclose',
                                                     ctx=ast.Load(),
                                                 ),
-                                            )
+                                            ),
                                         ],
                                         handlers=[
                                             ast.ExceptHandler(
                                                 type=ast.Name(
-                                                    id="AttributeError", ctx=ast.Load()
+                                                    id='AttributeError',
+                                                    ctx=ast.Load(),
                                                 ),
-                                                name=None,
-                                                body=[ast.Pass()],
-                                            )
+                                                body=[
+                                                    ast.Pass(),
+                                                ],
+                                            ),
                                         ],
                                         orelse=[
                                             ast.Expr(
                                                 value=ast.Await(
                                                     value=ast.Call(
                                                         func=ast.Name(
-                                                            id="__async_yf_aclose",
+                                                            id='__async_yf_aclose',
                                                             ctx=ast.Load(),
                                                         ),
-                                                        args=[],
-                                                        keywords=[],
-                                                    )
-                                                )
-                                            )
+                                                    ),
+                                                ),
+                                            ),
                                         ],
-                                        finalbody=[],
                                     ),
                                     ast.Raise(
                                         exc=ast.Name(
-                                            id="__async_yf_ge", ctx=ast.Load()
+                                            id='__async_yf_ge',
+                                            ctx=ast.Load(),
                                         ),
-                                        cause=None,
                                     ),
                                 ],
                             ),
                             ast.ExceptHandler(
-                                type=ast.Name(id="BaseException", ctx=ast.Load()),
-                                name="__async_yf_exc",
+                                type=ast.Name(
+                                    id='BaseException',
+                                    ctx=ast.Load(),
+                                ),
+                                name='__async_yf_exc',
                                 body=[
                                     ast.Assign(
                                         targets=[
                                             ast.Name(
-                                                id="__async_yf_athrow", ctx=ast.Store()
-                                            )
+                                                id='__async_yf_athrow',
+                                                ctx=ast.Store(),
+                                            ),
                                         ],
                                         value=ast.Call(
-                                            func=ast.Name(id="getattr", ctx=ast.Load()),
+                                            func=ast.Name(
+                                                id='getattr',
+                                                ctx=ast.Load(),
+                                            ),
                                             args=[
                                                 ast.Name(
-                                                    id="__async_yf_source",
+                                                    id='__async_yf_source',
                                                     ctx=ast.Load(),
                                                 ),
-                                                ast.Constant("athrow"),
-                                                ast.Constant(None),
+                                                ast.Constant(
+                                                    value='athrow',
+                                                ),
+                                                ast.Constant(
+                                                    value=None,
+                                                ),
                                             ],
-                                            keywords=[],
                                         ),
                                     ),
                                     ast.If(
                                         test=ast.Compare(
                                             left=ast.Name(
-                                                id="__async_yf_athrow", ctx=ast.Load()
+                                                id='__async_yf_athrow',
+                                                ctx=ast.Load(),
                                             ),
-                                            ops=[ast.Is()],
-                                            comparators=[ast.Constant(None)],
+                                            ops=[
+                                                ast.Is(),
+                                            ],
+                                            comparators=[
+                                                ast.Constant(
+                                                    value=None,
+                                                ),
+                                            ],
                                         ),
-                                        body=[ast.Raise()],
-                                        orelse=[],
+                                        body=[
+                                            ast.Raise(),
+                                        ],
                                     ),
                                     ast.Try(
                                         body=[
                                             ast.Assign(
                                                 targets=[
                                                     ast.Name(
-                                                        id="__async_yf_current",
+                                                        id='__async_yf_current',
                                                         ctx=ast.Store(),
-                                                    )
+                                                    ),
                                                 ],
                                                 value=ast.Await(
                                                     value=ast.Call(
                                                         func=ast.Name(
-                                                            id="__async_yf_athrow",
+                                                            id='__async_yf_athrow',
                                                             ctx=ast.Load(),
                                                         ),
                                                         args=[
                                                             ast.Name(
-                                                                id="__async_yf_exc",
+                                                                id='__async_yf_exc',
                                                                 ctx=ast.Load(),
-                                                            )
+                                                            ),
                                                         ],
-                                                        keywords=[],
-                                                    )
+                                                    ),
                                                 ),
-                                            )
+                                            ),
                                         ],
                                         handlers=[
                                             ast.ExceptHandler(
                                                 type=ast.Name(
-                                                    id="StopAsyncIteration",
+                                                    id='StopAsyncIteration',
                                                     ctx=ast.Load(),
                                                 ),
-                                                body=[ast.Return()],
-                                            )
+                                                body=[
+                                                    ast.Return(),
+                                                ],
+                                            ),
                                         ],
-                                        orelse=[],
-                                        finalbody=[],
                                     ),
                                 ],
                             ),
@@ -222,141 +249,152 @@ def make_async_yield_from_ast(expr: ast.expr) -> list[ast.stmt]:
                                     ast.If(
                                         test=ast.Compare(
                                             left=ast.Name(
-                                                id="__async_yf_sent_in", ctx=ast.Load()
+                                                id='__async_yf_sent_in',
+                                                ctx=ast.Load(),
                                             ),
-                                            ops=[ast.Is()],
-                                            comparators=[ast.Constant(None)],
+                                            ops=[
+                                                ast.Is(),
+                                            ],
+                                            comparators=[
+                                                ast.Constant(
+                                                    value=None,
+                                                ),
+                                            ],
                                         ),
                                         body=[
                                             ast.Assign(
                                                 targets=[
                                                     ast.Name(
-                                                        id="__async_yf_current",
+                                                        id='__async_yf_current',
                                                         ctx=ast.Store(),
-                                                    )
+                                                    ),
                                                 ],
                                                 value=ast.Await(
                                                     value=ast.Call(
                                                         func=ast.Attribute(
                                                             value=ast.Name(
-                                                                id="__async_yf_source",
+                                                                id='__async_yf_source',
                                                                 ctx=ast.Load(),
                                                             ),
-                                                            attr="__anext__",
+                                                            attr='__anext__',
                                                             ctx=ast.Load(),
                                                         ),
-                                                        args=[],
-                                                        keywords=[],
-                                                    )
+                                                    ),
                                                 ),
-                                            )
+                                            ),
                                         ],
                                         orelse=[
                                             ast.Assign(
                                                 targets=[
                                                     ast.Name(
-                                                        id="__async_yf_asend",
+                                                        id='__async_yf_asend',
                                                         ctx=ast.Store(),
-                                                    )
+                                                    ),
                                                 ],
                                                 value=ast.Call(
                                                     func=ast.Name(
-                                                        id="getattr", ctx=ast.Load()
+                                                        id='getattr',
+                                                        ctx=ast.Load(),
                                                     ),
                                                     args=[
                                                         ast.Name(
-                                                            id="__async_yf_source",
+                                                            id='__async_yf_source',
                                                             ctx=ast.Load(),
                                                         ),
-                                                        ast.Constant("asend"),
-                                                        ast.Constant(None),
+                                                        ast.Constant(
+                                                            value='asend',
+                                                        ),
+                                                        ast.Constant(
+                                                            value=None,
+                                                        ),
                                                     ],
-                                                    keywords=[],
                                                 ),
                                             ),
                                             ast.If(
                                                 test=ast.Compare(
                                                     left=ast.Name(
-                                                        id="__async_yf_asend",
+                                                        id='__async_yf_asend',
                                                         ctx=ast.Load(),
                                                     ),
-                                                    ops=[ast.Is()],
-                                                    comparators=[ast.Constant(None)],
+                                                    ops=[
+                                                        ast.Is(),
+                                                    ],
+                                                    comparators=[
+                                                        ast.Constant(
+                                                            value=None,
+                                                        ),
+                                                    ],
                                                 ),
                                                 body=[
                                                     ast.Assign(
                                                         targets=[
                                                             ast.Name(
-                                                                id="__async_yf_current",
+                                                                id='__async_yf_current',
                                                                 ctx=ast.Store(),
-                                                            )
+                                                            ),
                                                         ],
                                                         value=ast.Await(
                                                             value=ast.Call(
                                                                 func=ast.Attribute(
                                                                     value=ast.Name(
-                                                                        id="__async_yf_source",
+                                                                        id='__async_yf_source',
                                                                         ctx=ast.Load(),
                                                                     ),
-                                                                    attr="__anext__",
+                                                                    attr='__anext__',
                                                                     ctx=ast.Load(),
                                                                 ),
-                                                                args=[],
-                                                                keywords=[],
-                                                            )
+                                                            ),
                                                         ),
-                                                    )
+                                                    ),
                                                 ],
                                                 orelse=[
                                                     ast.Assign(
                                                         targets=[
                                                             ast.Name(
-                                                                id="__async_yf_current",
+                                                                id='__async_yf_current',
                                                                 ctx=ast.Store(),
-                                                            )
+                                                            ),
                                                         ],
                                                         value=ast.Await(
                                                             value=ast.Call(
                                                                 func=ast.Name(
-                                                                    id="__async_yf_asend",
+                                                                    id='__async_yf_asend',
                                                                     ctx=ast.Load(),
                                                                 ),
                                                                 args=[
                                                                     ast.Name(
-                                                                        id="__async_yf_sent_in",
+                                                                        id='__async_yf_sent_in',
                                                                         ctx=ast.Load(),
-                                                                    )
+                                                                    ),
                                                                 ],
-                                                                keywords=[],
-                                                            )
+                                                            ),
                                                         ),
-                                                    )
+                                                    ),
                                                 ],
                                             ),
                                         ],
-                                    )
+                                    ),
                                 ],
                                 handlers=[
                                     ast.ExceptHandler(
                                         type=ast.Name(
-                                            id="StopAsyncIteration", ctx=ast.Load()
+                                            id='StopAsyncIteration',
+                                            ctx=ast.Load(),
                                         ),
-                                        body=[ast.Return()],
-                                    )
+                                        body=[
+                                            ast.Return(),
+                                        ],
+                                    ),
                                 ],
-                                orelse=[],
-                                finalbody=[],
-                            )
+                            ),
                         ],
-                        finalbody=[],
-                    )
+                    ),
                 ],
-                orelse=[],
-            )
+            ),
         ],
-        finalbody=[],
     )
 
+    ### AUTOGEN FROM ayf.py STOP - DO NOT EDIT
     return [assign_source, try_initial]
 
 
@@ -370,11 +408,11 @@ class AsyncYieldFrom(ast.AST):
 
 
 class AsyncYieldFromExpander(ast.NodeTransformer):
-    def visit_AsyncYieldFrom(self, node: AsyncYieldFrom):
+    def visit_AsyncYieldFrom(self, node: AsyncYieldFrom) -> list[ast.stmt]:
         return make_async_yield_from_ast(node.value)
 
 
-def _rewrite_async_yield_from(
+def rewrite_async_yield_from(
     tokens: Sequence[tokenize_rt.Token],
 ) -> list[tokenize_rt.Token]:
     """
@@ -388,19 +426,33 @@ def _rewrite_async_yield_from(
 
     which the AST transformer later expands.
     """
+
+    def _skip_ws(idx: int) -> int:
+        """Advance idx until a non-whitespace token (keeps indentation intact)."""
+        while idx < len(tokens) and tokens[idx].name == "UNIMPORTANT_WS":
+            idx += 1
+        return idx
+
     new_tokens: list[tokenize_rt.Token] = []
     i = 0
 
     while i < len(tokens):
         tok = tokens[i]
         # async yield from
-        if (
-            tok.src == "async"
-            and i + 2 < len(tokens)
-            and tokens[i + 1].src == "yield"
-            and tokens[i + 2].src == "from"
-        ):
-            expr_start = i + 3
+        if tok.src == "async":
+            yield_idx = _skip_ws(i + 1)
+            if yield_idx >= len(tokens) or tokens[yield_idx].src != "yield":
+                new_tokens.append(tok)
+                i += 1
+                continue
+
+            from_idx = _skip_ws(yield_idx + 1)
+            if from_idx >= len(tokens) or tokens[from_idx].src != "from":
+                new_tokens.append(tok)
+                i += 1
+                continue
+
+            expr_start = _skip_ws(from_idx + 1)
             expr_end = expr_start
 
             # Collect expression tokens until newline/semicolon
@@ -412,8 +464,31 @@ def _rewrite_async_yield_from(
 
             expr_src = tokenize_rt.tokens_to_src(tokens[expr_start:expr_end]).strip()
 
-            # Replace with: AsyncYieldFrom(<expr>)
-            replacement_src = f"AsyncYieldFrom({expr_src})"
+            expr_ast = ast.parse(expr_src, mode="eval").body
+            expansion = make_async_yield_from_ast(expr_ast)
+            module = ast.Module(body=expansion, type_ignores=[])
+            ast.fix_missing_locations(module)
+            block_src = ast.unparse(module).strip("\n")
+
+            indent_parts: list[str] = []
+            while new_tokens and new_tokens[-1].name in {"INDENT", "UNIMPORTANT_WS"}:
+                candidate = new_tokens[-1]
+                if "\n" in candidate.src:
+                    break
+                indent_parts.append(new_tokens.pop().src)
+            base_indent = "".join(reversed(indent_parts))
+            if not base_indent:
+                column_raw = getattr(
+                    tok.offset, "utf8_byte_offset", tok.utf8_byte_offset
+                )
+                column = int(column_raw or 0)
+                base_indent = " " * column
+
+            indented_block = "\n".join(
+                (base_indent + line if line else line)
+                for line in block_src.splitlines()
+            )
+            replacement_src = indented_block + "\n"
             replacement_tokens = list(tokenize_rt.src_to_tokens(replacement_src))
             if replacement_tokens and replacement_tokens[0].name == "ENCODING":
                 replacement_tokens = replacement_tokens[1:]
@@ -432,92 +507,74 @@ def _rewrite_async_yield_from(
     return new_tokens
 
 
-def decode(input: Buffer, errors: str = "strict") -> tuple[str, int]:
-    """Decode UTF-8, rewrite async-yield-from, output transformed UTF-8 text."""
-    b = bytes(input)
-    if utf_8 is None:
-        raise TypeError(" encodings.search_function('utf8') was unable to find uft8")
-    u, length = utf_8.decode(b, errors)
+def _dev_build() -> None:
+    import re
+    from datetime import datetime
+    from pathlib import Path
 
-    tokens = tokenize_rt.src_to_tokens(u)
-    tokens = _rewrite_async_yield_from(tokens)
-    new_src = tokenize_rt.tokens_to_src(tokens)
+    from asttab import ASTParser
 
-    return new_src, length
+    UUID = "f717423b-daae-4070-9eb6-e7fe1ff8b74f"
+    if not (Path(__file__).parent.parent.parent.parent / UUID).exists():
+        return
+    print("dev uuid file found running autogen...")
+    ## self modifying code - updates the AUTOGEN section above
+    # Read the ayf.py file from the same directory as the UUID file
+    ayf_file = Path(__file__).parent.parent.parent.parent / "ayf.py"
+    if not ayf_file.exists():
+        print(f"Error: {ayf_file} not found")
+        sys.exit(1)
 
-
-class IncrementalDecoder(codecs.BufferedIncrementalDecoder):
-    def _buffer_decode(
-        self, input: Buffer, errors: str, final: bool
-    ) -> tuple[str, int]:
-        if final:
-            return decode(input, errors)
-        return ("", 0)
-
-
-class StreamReader(codecs.StreamReader):
-    """
-    UTF-8 reader that applies async-yield-from token rewrite.
-    """
-
-    def __init__(self, stream: IO[bytes], errors: str = "strict") -> None:
-        super().__init__(stream, errors)
-
-    def decode(self, input: bytes, errors: str = "strict") -> tuple[str, int]:
-        return decode(input, errors)
-
-    def read(self, size: int = -1, chars: int = -1, firstline: bool = False) -> str:
-        data = super().read(size, chars, firstline)
-        if not isinstance(data, bytes):
-            return data
-        text, _ = decode(data)
-        return text
-
-    def readline(self, size: int | None = None, keepends: bool = False) -> str:
-        data = super().readline(size, keepends)
-        if not isinstance(data, bytes):
-            return data
-        text, _ = decode(data)
-        return text
-
-
-def make_streamreader(stream: IO[bytes], errors: str = "strict") -> StreamReader:
-    return StreamReader(stream, errors)
-
-
-codec_map: dict[str, codecs.CodecInfo] = {
-    name: codecs.CodecInfo(
-        name=name,
-        encode=utf_8.encode,
-        decode=decode,
-        incrementalencoder=utf_8.incrementalencoder,
-        incrementaldecoder=IncrementalDecoder,
-        streamreader=make_streamreader,  # type: ignore[arg-type]
-        streamwriter=utf_8.streamwriter,
+    # Read the ayf.py source code and locate the async_yield_from() body
+    ayf_source = ayf_file.read_text()
+    ayf_module = ast.parse(ayf_source)
+    async_func = next(
+        (
+            node
+            for node in ayf_module.body
+            if isinstance(node, ast.AsyncFunctionDef)
+            and node.name == "async_yield_from"
+        ),
+        None,
     )
-    for name in ("future-async-yield-from", "future_async_yield_from")
-}
+    if async_func is None:
+        print("Error: async_yield_from() not found in ayf.py")
+        sys.exit(1)
+    try_block = next(
+        (stmt for stmt in async_func.body if isinstance(stmt, ast.Try)),
+        None,
+    )
+    if try_block is None:
+        print("Error: async_yield_from() missing leading try block")
+        sys.exit(1)
 
+    try_dump = ast.dump(try_block, indent=4)
+    builder_expr = ASTParser(try_dump).parse(pretty=True)
+    builder_expr = f"try_initial = {builder_expr}"
+    if not builder_expr.endswith("\n"):
+        builder_expr += "\n"
 
-def register() -> None:
-    codecs.register(codec_map.get)
+    # Read current file
+    current_file = Path(__file__)
+    current_content = current_file.read_text()
 
+    # Indent the builder code to match the function's indentation (4 spaces)
+    indented_ast_code = "\n".join(
+        "    " + line if line.strip() else line for line in builder_expr.split("\n")
+    )
 
-def main(argv: Sequence[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Prints transformed source.")
-    parser.add_argument("filename")
-    args = parser.parse_args(argv)
+    # Find and replace the AUTOGEN section
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    pattern = r"(### AUTOGEN FROM ayf\.py START - DO NOT EDIT\n)(.*?)(### AUTOGEN FROM ayf\.py STOP - DO NOT EDIT)"
 
-    with open(args.filename, "rb") as f:
-        text, _ = decode(f.read())
+    replacement = f"\\g<1>    # Generated: {timestamp}\n{indented_ast_code}\n    \\g<3>"
 
-    getattr(sys.stdout, "buffer", sys.stdout).write(text)
-    return 0
+    new_content = re.sub(pattern, replacement, current_content, flags=re.DOTALL)
 
-
-# Patch base class dynamically (required for type correctness)
-StreamReader.__bases__ = (utf_8.streamreader,)  # type: ignore[assignment]
+    # Write back to file
+    current_file.write_text(new_content)
+    print(f"Updated AUTOGEN section in {current_file}")
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    _dev_build()

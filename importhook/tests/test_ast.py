@@ -1,32 +1,30 @@
-# -*- coding: future-async-yield-from -*-
-import inspect
 import asyncio
-from beartype import beartype
+import inspect
 
-def simple_decorator(func):
-    func=beartype(func)
-    async def wrapper(*args, **kwargs):
-        # Call func to get the underlying async generator / async iterable
-        async yield from func(*args, **kwargs)
-    return wrapper
+import pytest
+from beartype.roar import BeartypeCallHintParamViolation
+
+from tests.async_fixture import a_gen
 
 
-@simple_decorator
-async def a_gen(x: int):
-    yield x
+def test_is_async_generator_function():
+    assert inspect.isasyncgenfunction(a_gen)
 
 
-print(inspect.isasyncgenfunction(a_gen))  # should be True
+def test_async_iteration_emits_values():
+    async def _runner():
+        observed: list[int] = []
+        async for value in a_gen(1):
+            observed.append(value)
+        return observed
+
+    assert asyncio.run(_runner()) == [1]
 
 
-async def main():
-    async for value in a_gen(1):
-        print("ok:", value)
+def test_type_guard_enforced():
+    async def _runner():
+        async for _ in a_gen("bad"):
+            pass
 
-    # This will blow up at *runtime* because  "bad" isn't the right type,
-    # but that's separate from the codec working.
-    async for value in a_gen("bad"):
-        print("bad:", value)
-
-
-asyncio.run(main())
+    with pytest.raises(BeartypeCallHintParamViolation):
+        asyncio.run(_runner())
