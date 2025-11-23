@@ -5,6 +5,12 @@ Adds the syntax 'async yield from' to python
 implements yield from in a async case via pure python
 see PEP 380
 
+there are two ways to integrate into python, via a importhook and an encoding string.
+
+The importhook effects all files after its install - it modifies all files at import time.
+
+the encoding string is probably safer as its opt in - requires the file to have the encoding string specifier, and then it can use the new "async yield from" syntax.
+
 based on
 
 ```python
@@ -163,4 +169,5 @@ def preserve_asyncgen(
 
     return wrapper
 ```
+
 
