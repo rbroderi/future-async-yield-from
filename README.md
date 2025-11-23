@@ -14,6 +14,8 @@ the encoding string is probably safer as its opt in - requires the file to have 
 based on
 
 ```python
+# -*- coding: future-async-yield-from -*-
+# above is only required if using the encoding string version.
 from __future__ import annotations
 
 import inspect
@@ -169,5 +171,6 @@ def preserve_asyncgen(
 
     return wrapper
 ```
+
 
 
