@@ -1,0 +1,1 @@
+THIS FILE IS USED TO SIGNIFY THAT WE ARE IN "DEV" MODE. STOPS RUNNING ast_encoding.py from doing anything when directly run if missing.
