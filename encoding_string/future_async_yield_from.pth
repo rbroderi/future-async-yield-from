@@ -1,0 +1,2 @@
+# Automatically register the future-async-yield-from codec.
+import future_async_yield_from as _async_yf_codec; _async_yf_codec.register()
